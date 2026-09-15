@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlantek Systems · Dashboard</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+  <style>
+    .auth-gate{position:fixed;inset:0;z-index:999;background:#061828;display:flex;align-items:center;justify-content:center}
+    .auth-gate.hidden{display:none}
+    .auth-box{background:#122338;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:44px 36px;width:min(400px,92vw);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+    .auth-box img{height:75px;max-width:220px;width:auto;object-fit:contain;margin-bottom:24px}
+    .auth-box h2{font-size:20px;font-weight:700;margin-bottom:6px;color:#E9EDF0}
+    .auth-box p{font-size:13px;color:#8E9AA4;margin-bottom:24px}
+    .auth-box input{width:100%;padding:12px 14px;font-size:14px;font-family:var(--font);background:#0a1628;border:1px solid rgba(255,255,255,.15);color:#E9EDF0;border-radius:8px;margin-bottom:14px;outline:none}
+    .auth-box input:focus{border-color:#1a6aff}
+    .auth-box button{width:100%;padding:13px;font-size:14px;font-weight:700;font-family:var(--font);background:#1a6aff;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .18s,box-shadow .18s}
+    .auth-box button:hover{background:#0d52cc;box-shadow:0 6px 24px rgba(26,106,255,.4)}
+    .auth-err{color:#ff6b6b;font-size:12px;margin-top:10px;min-height:18px}
+  </style>
+</head>
+<body>
+
+  <div class="auth-gate" id="auth-gate">
+    <div class="auth-box">
+      <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK">
+      <h2>Dashboard</h2>
+      <p>Ingresá la clave para continuar</p>
+      <input type="password" id="auth-pass" placeholder="Clave" autofocus>
+      <button id="auth-btn">Entrar</button>
+      <p class="auth-err" id="auth-err"></p>
+    </div>
+  </div>
+
+  <div style="display:none" id="auth-content">
+
+  <!-- ══════════ NAV ══════════ -->
+  <header class="dnav">
+    <div class="container dnav__inner">
+      <a href="index.html" class="logo">
+        <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK Systems" class="logo__img">
+      </a>
+      <div class="dnav__right">
+        <span class="sync-badge" id="sync-badge">● Cargando…</span>
+        <a href="admin.html" class="btn btn--ghost btn--sm">Gestión</a>
+        <a href="index.html" class="btn btn--ghost btn--sm">Sitio</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container dash">
+
+    <div class="dash__head">
+      <div>
+        <h1>Resumen del negocio</h1>
+        <p class="dash__sub" id="dash-updated">—</p>
+      </div>
+      <button class="btn btn--red btn--sm" id="btn-refresh">↻ Actualizar</button>
+    </div>
+
+    <!-- KPIs -->
+    <section class="kpis" id="kpis" aria-label="Indicadores"></section>
+
+    <!-- Facturación por mes -->
+    <section class="panel">
+      <div class="panel__head">
+        <h2>Facturación por mes</h2>
+        <span class="panel__note">Proformas enviadas + facturas (₡)</span>
+      </div>
+      <div class="bars" id="bars"></div>
+    </section>
+
+    <div class="dash__grid">
+      <!-- Últimos documentos -->
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Últimos documentos</h2>
+          <a href="admin.html#/documentos" class="panel__link">Ver todos →</a>
+        </div>
+        <div class="tablewrap">
+          <table class="table" id="docs-table">
+            <thead>
+              <tr><th>Nº</th><th>Tipo</th><th>Cliente</th><th>Estado</th><th class="ta-r">Total</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Leads del sitio -->
+      <section class="panel">
+        <div class="panel__head">
+          <h2>Leads del sitio web</h2>
+          <span class="panel__note" id="leads-note"></span>
+        </div>
+        <ul class="leads" id="leads-list"></ul>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="dfoot">
+    <div class="container">
+      <p>Desarrollado por <a href="https://apexcloudworkscompany.com" target="_blank" rel="noopener">Apex Cloud Work</a> — Cartago, CR</p>
+    </div>
+  </footer>
+  </div>
+
+  <script>
+  (function(){
+    var HASH='YXRsYW50ZWsyMDI2';
+    var gate=document.getElementById('auth-gate');
+    var content=document.getElementById('auth-content');
+    var pass=document.getElementById('auth-pass');
+    var btn=document.getElementById('auth-btn');
+    var err=document.getElementById('auth-err');
+    if(sessionStorage.getItem('atlantek-auth')){gate.classList.add('hidden');content.style.display='';return}
+    function check(){if(btoa(pass.value)===HASH){sessionStorage.setItem('atlantek-auth','1');gate.classList.add('hidden');content.style.display='';}else{err.textContent='Clave incorrecta';pass.value='';pass.focus();}}
+    btn.addEventListener('click',check);
+    pass.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+  })();
+  </script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

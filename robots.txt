@@ -1,0 +1,11 @@
+# Atlantek Systems · robots.txt
+# Dominio oficial: https://atlanteksystems.com
+
+User-agent: *
+Allow: /
+
+# Páginas privadas de gestión: no indexar
+Disallow: /admin.html
+Disallow: /dashboard.html
+
+Sitemap: https://atlanteksystems.com/sitemap.xml

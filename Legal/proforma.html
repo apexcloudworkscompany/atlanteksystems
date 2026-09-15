@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Proforma PRF-2026-INT-001 — Garett Barrantes / Atlantek</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=3"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1a4a6b;--navy-soft:#e8f0f6;--slate:#37424C;--slate-dark:#2A323A;--slate-soft:#E9ECEE;--ink:#1B1B1B;--muted:#7A7F85;--line:#E3E3E0;--bg:#F2F2EF;--paper:#FFF}
+body{font-family:'Archivo',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.7}
+.navbar{background:var(--slate-dark);color:#fff;padding:.9rem 0;border-bottom:4px solid var(--navy)}
+.nav-inner{width:min(800px,92%);margin-inline:auto;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-weight:800;font-size:1.05rem;color:#fff;text-decoration:none}
+.nav-logo span{color:var(--navy)}
+.nav-doc{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.container{width:min(800px,92%);margin-inline:auto;padding-block:3rem}
+.doc-header{background:var(--navy);color:#fff;border-radius:3px;padding:2.2rem 2.4rem;margin-bottom:1.75rem}
+.doc-header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1.5rem}
+.brand-name{font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.brand-sub{font-size:.75rem;color:rgba(255,255,255,.7);margin-top:.3rem;line-height:1.6}
+.doc-id{text-align:right}
+.doc-type{font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.25rem}
+.doc-number{font-size:1.35rem;font-weight:800}
+.badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;padding:.3rem .8rem;border-radius:50px;font-size:.72rem;font-weight:700;background:rgba(0,0,0,.22);color:#a8d4ff}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.doc-dates{display:flex;gap:2rem;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.25);flex-wrap:wrap}
+.dd-label{font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.15rem}
+.dd-value{font-size:.88rem;font-weight:700}
+.parties{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.75rem}
+.party{background:var(--paper);border:1px solid var(--line);border-top:3px solid var(--slate);border-radius:3px;padding:1.15rem 1.4rem}
+.party-title{font-size:.62rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin-bottom:.6rem}
+.party-name{font-size:1rem;font-weight:800;margin-bottom:.35rem}
+.party-detail{font-size:.79rem;color:var(--muted);line-height:1.65}
+.section-label{font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--slate);margin-bottom:.6rem}
+table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;background:var(--paper);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+th{background:var(--slate);color:#fff;font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.6rem .85rem;text-align:left}
+th:last-child{text-align:right}
+td{font-size:.85rem;padding:.65rem .85rem;border-bottom:1px solid var(--line);vertical-align:top}
+td:last-child{text-align:right;font-weight:800;color:var(--navy);white-space:nowrap}
+td small{display:block;font-size:.73rem;font-weight:400;color:var(--muted);line-height:1.55;margin-top:.15rem}
+tr.subtotal td{background:#FAFAF8;color:var(--muted);font-size:.8rem}
+tr.subtotal td:last-child{color:var(--slate);font-weight:700}
+tr.total td{background:var(--slate-soft);font-weight:800;font-size:.92rem;border-bottom:none;color:var(--ink)}
+tr.total td:last-child{color:var(--navy);font-size:1.05rem}
+.payment{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.75rem}
+.pay-card{background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:1.15rem 1.4rem}
+.pay-title{font-size:.62rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin-bottom:.6rem}
+.pay-method{font-size:.82rem;color:#3a3a38;display:flex;gap:.45rem;margin-bottom:.35rem}
+.pay-method::before{content:"→";color:var(--navy);font-weight:700}
+.pay-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--line);font-size:.83rem}
+.pay-row:last-child{border-bottom:none;font-weight:800;padding-top:.6rem}
+.pay-row:last-child span:last-child{color:var(--navy)}
+.pay-label{color:var(--muted)}
+.note{background:var(--navy-soft);border-left:3px solid var(--navy);border-radius:0 3px 3px 0;padding:1rem 1.2rem;font-size:.8rem;color:#1a3a5a;line-height:1.7;margin-bottom:1.25rem}
+.note--slate{background:var(--slate-soft);border-left-color:var(--slate);color:var(--slate-dark)}
+footer{background:var(--slate-dark);color:rgba(255,255,255,.45);text-align:center;padding:1.5rem 1rem;font-size:.72rem;margin-top:3rem;border-top:4px solid var(--navy)}
+@media print{.navbar{display:none}body{background:#fff}.doc-header,th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.container{padding-block:1.25rem}}
+@media(max-width:620px){.parties,.payment{grid-template-columns:1fr}.doc-id{text-align:left}}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a class="nav-logo">i<span>NTEC</span> · Proyecto Web</a>
+    <span class="nav-doc">Documento Privado · No Publicar</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="doc-header">
+    <div class="doc-header-top">
+      <div>
+        <div class="brand-name">Garett Barrantes</div>
+        <div class="brand-sub">Desarrollo web · Trabajo personal<br>garettjohan12@gmail.com · +506 6314-4171</div>
+      </div>
+      <div class="doc-id">
+        <div class="doc-type">Proforma de Cobro</div>
+        <div class="doc-number">PRF-2026-INT-001</div>
+        <span class="badge">Pendiente de pago</span>
+      </div>
+    </div>
+    <div class="doc-dates">
+      <div><div class="dd-label">Fecha de emisión</div><div class="dd-value">12 de julio de 2026</div></div>
+      <div><div class="dd-label">Fecha de vencimiento</div><div class="dd-value">27 de julio de 2026</div></div>
+      <div><div class="dd-label">Referencia de contrato</div><div class="dd-value">CTR-2026-INT-001</div></div>
+    </div>
+  </div>
+
+  <div class="parties">
+    <div class="party">
+      <div class="party-title">Emitido por</div>
+      <div class="party-name">Garett Johan Barrantes Benavides</div>
+      <div class="party-detail">Cédula 7-0263-0247 · Persona física<br>Cartago, Costa Rica<br>garettjohan12@gmail.com<br>+506 6314-4171</div>
+    </div>
+    <div class="party">
+      <div class="party-title">Facturado a</div>
+      <div class="party-name">Atlantek — Seguridad · CCTV · Redes</div>
+      <div class="party-detail">70201 Guápiles, Pococí, Costa Rica<br>soporte@atlanteksystems.com<br>+506 7231-2225</div>
+    </div>
+  </div>
+
+  <div class="section-label">Detalle de servicios</div>
+  <table>
+    <thead>
+      <tr><th>Descripción</th><th style="text-align:center">Cant.</th><th>Precio unitario</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sitio web Atlantek</strong>
+          <small>Landing page con los 6 servicios del negocio · Botón WhatsApp · Formulario de contacto con registro automático en Google Sheets · HTML/CSS/JS · Deploy AWS S3 + CloudFront + SSL · Activo en producción</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>₡50.000</td>
+        <td>₡50.000</td>
+      </tr>
+      <tr>
+        <td><strong>Panel de gestión de clientes y facturación</strong>
+          <small>Clientes · Proformas y facturas con numeración automática · Vista imprimible en formato oficial Atlantek · Conversión proforma→factura · Envío por WhatsApp · Sincronización Google Sheets</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>Incluido</td>
+        <td>₡0</td>
+      </tr>
+      <tr>
+        <td><strong>Documentos legales Atlantek</strong>
+          <small>Términos de servicio + Política de privacidad · Conformes a la Ley N.° 8968 de Costa Rica</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>Incluido</td>
+        <td>₡0</td>
+      </tr>
+      <tr>
+        <td><strong>Dominio .com (registro anual)</strong>
+          <small>Costo directo del registrador · Renovación anual a cargo del cliente · Equivalente en colones al tipo de cambio BCCR del día del pago</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>$15 USD</td>
+        <td>$15 USD</td>
+      </tr>
+      <tr class="subtotal"><td colspan="3">Subtotal desarrollo</td><td>₡50.000</td></tr>
+      <tr class="subtotal"><td colspan="3">Subtotal dominio</td><td>$15 USD</td></tr>
+      <tr class="total"><td colspan="3">TOTAL A PAGAR</td><td>₡50.000 + $15 USD</td></tr>
+    </tbody>
+  </table>
+
+  <div class="payment">
+    <div class="pay-card">
+      <div class="pay-title">Métodos de pago aceptados</div>
+      <div class="pay-method">SINPE Móvil al +506 6314-4171 (Garett Barrantes)</div>
+      <div class="pay-method">Transferencia bancaria (coordinar por WhatsApp)</div>
+      <div class="pay-method">Efectivo (Guápiles / Cartago, coordinado previamente)</div>
+    </div>
+    <div class="pay-card">
+      <div class="pay-title">Estado del cobro</div>
+      <div class="pay-row"><span class="pay-label">Total del contrato</span><span>₡50.000 + $15 USD</span></div>
+      <div class="pay-row"><span class="pay-label">Adelanto recibido (50%)</span><span>₡0</span></div>
+      <div class="pay-row"><span class="pay-label">Saldo pendiente</span><span>₡50.000 + $15 USD</span></div>
+      <div class="pay-row"><span class="pay-label">Vence el</span><span>27 jul 2026</span></div>
+    </div>
+  </div>
+
+  <div class="note note--slate">
+    <strong>Esta proforma NO incluye:</strong> mantenimiento mensual posterior a la entrega, revisiones adicionales a las 2 rondas pactadas en el contrato, secciones o funcionalidades nuevas fuera de lo listado, ni la renovación del dominio en años siguientes ($15 USD/año a cargo de Atlantek).
+  </div>
+
+  <div class="note">
+    <strong>Nota legal:</strong> esta proforma tiene validez de <strong>15 días naturales</strong> desde su emisión (vence el 27 de julio de 2026). Pasado ese plazo sin pago, el prestador se reserva el derecho de suspender el acceso público al sitio hasta recibir el pago completo, conforme al contrato CTR-2026-INT-001. Consultas: WhatsApp +506 6314-4171.
+  </div>
+
+</div>
+
+<footer>
+  Documento confidencial · PRF-2026-INT-001 · No publicar<br>
+  © 2026 Garett Barrantes · Trabajo personal · Costa Rica
+</footer>
+
+</body>
+</html>

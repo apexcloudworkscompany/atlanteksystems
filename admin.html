@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Atlantek Systems · Gestión de Clientes y Facturación</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/admin.css">
+  <style>
+    .auth-gate{position:fixed;inset:0;z-index:999;background:#061828;display:flex;align-items:center;justify-content:center}
+    .auth-gate.hidden{display:none}
+    .auth-box{background:#122338;border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:44px 36px;width:min(400px,92vw);text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+    .auth-box img{height:75px;max-width:220px;width:auto;object-fit:contain;margin-bottom:24px}
+    .auth-box h2{font-size:20px;font-weight:700;margin-bottom:6px;color:#E9EDF0}
+    .auth-box p{font-size:13px;color:#8E9AA4;margin-bottom:24px}
+    .auth-box input{width:100%;padding:12px 14px;font-size:14px;font-family:var(--font);background:#0a1628;border:1px solid rgba(255,255,255,.15);color:#E9EDF0;border-radius:8px;margin-bottom:14px;outline:none}
+    .auth-box input:focus{border-color:#1a6aff}
+    .auth-box button{width:100%;padding:13px;font-size:14px;font-weight:700;font-family:var(--font);background:#1a6aff;color:#fff;border:none;border-radius:8px;cursor:pointer;transition:background .18s,box-shadow .18s}
+    .auth-box button:hover{background:#0d52cc;box-shadow:0 6px 24px rgba(26,106,255,.4)}
+    .auth-err{color:#ff6b6b;font-size:12px;margin-top:10px;min-height:18px}
+  </style>
+</head>
+<body>
+
+  <div class="auth-gate" id="auth-gate">
+    <div class="auth-box">
+      <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK">
+      <h2>Panel de Gestión</h2>
+      <p>Ingresá la clave para continuar</p>
+      <input type="password" id="auth-pass" placeholder="Clave" autofocus>
+      <button id="auth-btn">Entrar</button>
+      <p class="auth-err" id="auth-err"></p>
+    </div>
+  </div>
+
+  <div class="app" id="app" style="display:none">
+
+    <!-- ══════════ SIDEBAR ══════════ -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="logo">
+          <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK Systems" class="logo__img">
+        </div>
+        <span class="sidebar__tag">Seguridad · CCTV · Redes</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#/dashboard" class="nav-item" data-nav="dashboard">
+          <span class="nav-item__dot"></span> Dashboard
+        </a>
+        <a href="#/leads" class="nav-item" data-nav="leads">
+          <span class="nav-item__dot"></span> Leads del sitio
+          <span class="nav-badge" id="nav-badge-leads" hidden>0</span>
+        </a>
+        <a href="#/clientes" class="nav-item" data-nav="clientes">
+          <span class="nav-item__dot"></span> Clientes
+        </a>
+        <a href="#/catalogo" class="nav-item" data-nav="catalogo">
+          <span class="nav-item__dot"></span> Catálogo
+        </a>
+        <a href="#/documentos" class="nav-item" data-nav="documentos">
+          <span class="nav-item__dot"></span> Proformas / Facturas
+        </a>
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-item__dot"></span> Resumen del negocio
+        </a>
+      </nav>
+
+      <div class="sidebar__cta">
+        <a href="#/editor" class="btn btn--red btn--block">+ Nueva proforma</a>
+      </div>
+
+      <div class="sidebar__foot">
+        <span class="sync-badge" id="sync-badge" title="Estado de sincronización con Google Sheets">● Local</span>
+        <span>soporte@atlanteksystems.com</span>
+        <span>70201 Guápiles · Costa Rica</span>
+      </div>
+    </aside>
+
+    <!-- ══════════ MAIN ══════════ -->
+    <main class="main" id="main"><!-- vistas renderizadas por app.js --></main>
+
+  </div>
+
+  <!-- ══════════ VISTA DOCUMENTO (réplica de la proforma PDF) ══════════ -->
+  <div class="docview" id="docview" hidden>
+    <div class="docview__bar no-print">
+      <button class="btn btn--ghost" id="doc-back">← Volver</button>
+      <div class="docview__bar-right">
+        <select id="doc-status" class="input input--select input--sm"></select>
+        <button class="btn btn--ghost" id="doc-cobro" hidden>Recordar cobro</button>
+        <button class="btn btn--ghost" id="doc-wa">WhatsApp</button>
+        <button class="btn btn--slate" id="doc-to-factura" hidden>→ Factura</button>
+        <button class="btn btn--slate" id="doc-edit">Editar</button>
+        <button class="btn btn--red" id="doc-print">Imprimir / PDF</button>
+      </div>
+    </div>
+    <div class="sheet" id="sheet"><!-- documento renderizado por app.js --></div>
+  </div>
+
+  <!-- ══════════ MODAL ══════════ -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" id="modal-panel"></div>
+  </div>
+
+  <script>
+  (function(){
+    var HASH='YXRsYW50ZWsyMDI2';
+    var gate=document.getElementById('auth-gate');
+    var app=document.getElementById('app');
+    var pass=document.getElementById('auth-pass');
+    var btn=document.getElementById('auth-btn');
+    var err=document.getElementById('auth-err');
+    if(sessionStorage.getItem('atlantek-auth')){gate.classList.add('hidden');app.style.display='';return}
+    function check(){if(btoa(pass.value)===HASH){sessionStorage.setItem('atlantek-auth','1');gate.classList.add('hidden');app.style.display='';}else{err.textContent='Clave incorrecta';pass.value='';pass.focus();}}
+    btn.addEventListener('click',check);
+    pass.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
+  })();
+  </script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
