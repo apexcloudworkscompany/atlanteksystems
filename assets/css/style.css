@@ -1374,7 +1374,7 @@ h1 em { font-style: normal; color: var(--navy-light); }
 .coverage {
   display: grid;
   grid-template-columns: .9fr 1.1fr;
-  gap: 64px;
+  gap: 80px;
   align-items: center;
 }
 
@@ -1585,7 +1585,7 @@ h1 em { font-style: normal; color: var(--navy-light); }
   color: var(--muted);
   font-size: 15.5px;
   max-width: 460px;
-  margin-bottom: 28px;
+  margin-bottom: 36px;
 }
 .coverage__lead b { color: var(--ink); font-weight: 600; }
 
@@ -1593,8 +1593,9 @@ h1 em { font-style: normal; color: var(--navy-light); }
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0 32px;
+  gap: 0 40px;
   border-top: 1px solid var(--line);
+  padding: 20px 0 0;
 }
 
 .coverage__list li {
@@ -1602,8 +1603,12 @@ h1 em { font-style: normal; color: var(--navy-light); }
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  padding: 13px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--line);
+}
+
+.coverage__info {
+  padding: 24px 0 0;
 }
 
 .coverage__list b {
