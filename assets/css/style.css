@@ -1144,6 +1144,7 @@ h1 em { font-style: normal; color: var(--navy-light); }
   flex: 1 1 auto;
   scrollbar-width: thin;
   scrollbar-color: var(--line-2) transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chat-msg {
@@ -1246,7 +1247,12 @@ h1 em { font-style: normal; color: var(--navy-light); }
     bottom: calc(182px + env(safe-area-inset-bottom));
     left: 14px;
     width: auto;
-    max-height: calc(100dvh - 256px);
+    max-height: calc(100dvh - 200px);
+  }
+  .chat-panel__chips {
+    max-height: 180px;
+    overflow-y: auto;
+    padding-bottom: 8px;
   }
 }
 
@@ -1369,16 +1375,33 @@ h1 em { font-style: normal; color: var(--navy-light); }
   .footer__inner .logo { justify-content: center; }
 }
 
-/* ═══════════ COBERTURA (radar) ═══════════ */
+/* ═══════════ COBERTURA (radar + mapa) ═══════════ */
 
 .coverage {
+  position: relative;
   display: grid;
   grid-template-columns: .9fr 1.1fr;
   gap: 80px;
   align-items: center;
 }
 
+.coverage__map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.coverage__map canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .radar {
+  position: relative;
+  z-index: 1;
   position: relative;
   width: min(400px, 100%);
   aspect-ratio: 1;
