@@ -13,6 +13,7 @@
   <style>
     .auth-gate{position:fixed;inset:0;z-index:999;background:#061828;display:flex;align-items:center;justify-content:center;padding:24px}
     .auth-gate.hidden{display:none}
+    .auth-gate:not(.hidden){display:flex !important}
     .auth-box{background:#122338;border:1px solid rgba(26,106,255,.25);border-radius:16px;padding:56px 48px;width:min(420px,92vw);text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.6), inset 0 0 0 1px rgba(26,106,255,.15)}
     .auth-box img{height:120px;max-width:300px;width:auto;object-fit:contain;margin-bottom:28px;filter: drop-shadow(0 8px 24px rgba(26,106,255,.35))}
     .auth-box h2{font-size:22px;font-weight:800;margin-bottom:8px;color:#E9EDF0;letter-spacing:-0.02em}
@@ -133,9 +134,9 @@
     var logout=document.getElementById('btn-logout');
     if(sessionStorage.getItem('atlantek-auth')){gate.classList.add('hidden');app.style.display='';return}
     function check(){if(btoa(pass.value)===HASH){sessionStorage.setItem('atlantek-auth','1');gate.classList.add('hidden');app.style.display='';}else{err.textContent='Clave incorrecta';pass.value='';pass.focus();}}
-    function doLogout(){sessionStorage.removeItem('atlantek-auth');gate.classList.remove('hidden');app.style.display='none';pass.value='';err.textContent='';pass.focus();}
+    function doLogout(){console.log('Logout clicked');sessionStorage.removeItem('atlantek-auth');gate.classList.remove('hidden');gate.style.display='flex';app.style.display='none';pass.value='';err.textContent='';pass.focus();}
     btn.addEventListener('click',check);
-    logout?.addEventListener('click',doLogout);
+    if(logout){logout.addEventListener('click',doLogout);console.log('Logout btn found');}else{console.log('Logout btn NOT found');}
     pass.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   })();
   </script>
