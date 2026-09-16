@@ -91,6 +91,7 @@
         <span class="sync-badge" id="sync-badge" title="Estado de sincronización con Google Sheets">● Local</span>
         <span>soporte@atlanteksystems.com</span>
         <span>70201 Guápiles · Costa Rica</span>
+        <button class="btn btn--ghost btn--sm btn--logout" id="btn-logout" style="width:100%;margin-top:12px">Cerrar sesión</button>
       </div>
     </aside>
 
@@ -129,9 +130,12 @@
     var pass=document.getElementById('auth-pass');
     var btn=document.getElementById('auth-btn');
     var err=document.getElementById('auth-err');
+    var logout=document.getElementById('btn-logout');
     if(sessionStorage.getItem('atlantek-auth')){gate.classList.add('hidden');app.style.display='';return}
     function check(){if(btoa(pass.value)===HASH){sessionStorage.setItem('atlantek-auth','1');gate.classList.add('hidden');app.style.display='';}else{err.textContent='Clave incorrecta';pass.value='';pass.focus();}}
+    function doLogout(){sessionStorage.removeItem('atlantek-auth');gate.classList.remove('hidden');app.style.display='none';pass.value='';err.textContent='';pass.focus();}
     btn.addEventListener('click',check);
+    logout?.addEventListener('click',doLogout);
     pass.addEventListener('keydown',function(e){if(e.key==='Enter')check();});
   })();
   </script>
