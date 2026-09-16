@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/dashboard.css">
-  <style>
-    .auth-gate{position:fixed;inset:0;z-index:999;background:#061828;display:flex;align-items:center;justify-content:center}
+<style>
+    .auth-gate{position:fixed;inset:0;z-index:999;background:#061828;display:flex;align-items:center;justify-content:center;padding:24px}
     .auth-gate.hidden{display:none}
     .auth-box{background:#122338;border:1px solid rgba(26,106,255,.25);border-radius:16px;padding:56px 48px;width:min(420px,92vw);text-align:center;box-shadow:0 32px 80px rgba(0,0,0,.6), inset 0 0 0 1px rgba(26,106,255,.15)}
     .auth-box img{height:120px;max-width:300px;width:auto;object-fit:contain;margin-bottom:28px;filter: drop-shadow(0 8px 24px rgba(26,106,255,.35))}
@@ -23,6 +23,18 @@
     .auth-box button:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(26,106,255,.5)}
     .auth-box button:active{transform:translateY(0)}
     .auth-err{color:#ff6b6b;font-size:12px;margin-top:12px;min-height:18px}
+    @media (max-width: 480px){
+      .auth-box{padding:40px 28px}
+      .auth-box img{height:90px;max-width:220px;margin-bottom:20px}
+      .auth-box h2{font-size:20px}
+      .auth-box p{font-size:13px;margin-bottom:24px}
+      .auth-box input{padding:12px 14px;font-size:14px;margin-bottom:16px}
+      .auth-box button{padding:14px;font-size:14px}
+    }
+    @media (max-width: 360px){
+      .auth-box img{height:75px;max-width:180px}
+      .auth-box{padding:32px 24px}
+    }
   </style>
 </head>
 <body>
