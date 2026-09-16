@@ -957,6 +957,24 @@ h1 em { font-style: normal; color: var(--navy-light); }
 
 .footer__legal a:hover { color: var(--navy-light); }
 
+.footer__admin {
+  font-family: var(--mono);
+  font-size: 10px !important;
+  letter-spacing: .4px;
+  color: var(--faint) !important;
+  margin-top: 16px;
+  opacity: 0.6;
+  transition: opacity .2s;
+}
+
+.footer__admin a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.footer__admin a:hover { color: var(--navy-light); }
+
 .footer__credit {
   font-family: var(--mono);
   font-size: 10px !important;
