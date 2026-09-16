@@ -201,13 +201,81 @@
     });
   }
 
+  /* ══════ Radar de cobertura: barrido con detección de puntos ══════
+     El CSS mueve el barrido con una animación simple; JS toma el control
+     (rAF) para saber el ángulo real y encender cada distrito al pasarlo. */
+  const sweep = document.getElementById('radar-sweep');
+  if (sweep) {
+    const radar = sweep.parentElement;
+    const blips = Array.from(radar.querySelectorAll('.radar__blip'))
+      .filter((b) => !b.classList.contains('radar__blip--base'));
+    const rngEl = document.getElementById('radar-rng');
+    const lockEl = document.getElementById('radar-lock');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const lockTimeout = 1400;
+    const tolerance = 16;
+    const locked = new Set();
+
+    sweep.style.animation = 'none';
+    sweep.style.transformOrigin = '50% 50%';
+
+    const angleOf = (b) => ((parseFloat(b.dataset.ang) || 0) * Math.PI) / 180;
+    const sweepAngle = (deg) => ((deg - 90) * Math.PI) / 180; /* N = -90° rad */
+    const sameDir = (a, b) => {
+      let d = Math.abs(a - b);
+      d = d % (Math.PI * 2);
+      if (d > Math.PI) d = Math.PI * 2 - d;
+      return d <= (tolerance * Math.PI) / 180;
+    };
+
+    const lockBlip = (b) => {
+      if (locked.has(b)) return;
+      locked.add(b);
+      b.classList.add('is-locked');
+      lockEl.textContent = `${locked.size}/${blips.length}`;
+      setTimeout(() => {
+        locked.delete(b);
+        b.classList.remove('is-locked');
+        lockEl.textContent = `${locked.size}/${blips.length}`;
+      }, lockTimeout);
+    };
+
+    const lockAll = () => {
+      blips.forEach((b) => { locked.add(b); b.classList.add('is-locked'); });
+      lockEl.textContent = `${blips.length}/${blips.length}`;
+    };
+
+    if (reduceMotion) {
+      lockAll();
+      rngEl.textContent = '—';
+      return;
+    }
+
+    let deg = 0;
+    let last = performance.now();
+
+    const tick = (now) => {
+      const dt = Math.min(now - last, 100);
+      last = now;
+      deg = (deg + (360 / 5500) * dt) % 360;
+      sweep.style.transform = `rotate(${deg}deg)`;
+      rngEl.textContent = `${Math.round(deg)}°`;
+
+      const sa = sweepAngle(deg);
+      blips.forEach((b) => { if (sameDir(angleOf(b), sa)) lockBlip(b); });
+
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
   /* ── Chat de preguntas frecuentes ──
      Responde automáticamente con el mismo contenido del FAQ.
      Las preguntas ya respondidas se marcan para no repetirse. */
   const FAQ = [
     {
       q: '¿Cuánto cuesta instalar cámaras?',
-      a: 'Depende de la cantidad de cámaras y el tipo de propiedad. Una casa típica con 4 cámaras cuesta entre <b>$350-$600 USD</b> todo incluido (equipos, cableado e instalación). Hacemos <b>valoración gratis</b> sin compromiso.'
+      a: 'Depende de la cantidad de cámaras y el tipo de propiedad. Una casa típica con 4 cámaras cuesta entre <b>$350-$600 USD</b> todo incluido (equipos, cableado e instalación). Coordinamos una <b>valoración técnica en sitio</b> para preparar su cotización.'
     },
     {
       q: '¿Qué garantía tienen los equipos?',
