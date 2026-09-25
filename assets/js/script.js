@@ -23,8 +23,17 @@
     });
   }
 
-  /* ── Nav con profundidad al hacer scroll ── */
-  const onScroll = () => nav.classList.toggle('nav--scrolled', window.scrollY > 12);
+  /* ── Nav con profundidad + barra de progreso al hacer scroll ── */
+  const progressBar = document.querySelector('.nav__progress');
+  const onScroll = () => {
+    nav.classList.toggle('nav--scrolled', window.scrollY > 12);
+    if (progressBar) {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      progressBar.style.transform = `scaleX(${Math.min(progress, 1)})`;
+    }
+  };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
@@ -153,6 +162,8 @@
         telefono: String(f.get('telefono') || '').trim(),
         distrito: String(f.get('distrito') || ''),
         tipo: String(f.get('tipo') || ''),
+        visualizacion: String(f.get('visualizacion') || ''),
+        ubicacion: String(f.get('ubicacion') || ''),
         servicio: String(f.get('servicio') || ''),
         mensaje: String(f.get('mensaje') || '').trim()
       };
