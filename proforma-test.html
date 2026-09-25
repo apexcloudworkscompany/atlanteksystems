@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Proforma PRF-001 — Atlantek Systems</title>
+<meta name="robots" content="noindex, nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg?v=4"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --navy:#1a6aff;--navy-dark:#0d52cc;--navy-light:#3b82f6;--navy-glow:rgba(26,106,255,.4);
+    --ink:#0f172a;--muted:#64748b;--faint:#94a3b8;--line:#e2e8f0;--line-2:#cbd5e1;
+    --bg:#f8fafc;--card:#ffffff;--green:#10b981;--amber:#f59e0b;--red:#ef4444;
+    --radius:12px;--font:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+    --container:1200px;
+  }
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.65;font-size:15px;-webkit-font-smoothing:antialiased}
+  .container{width:min(var(--container),calc(100% - 44px));margin-inline:auto;padding-block:3rem}
+  .doc-header{background:linear-gradient(135deg,var(--ink) 0%,#1e293b 100%);color:#fff;border-radius:var(--radius);padding:2.5rem;margin-bottom:2rem;box-shadow:0 10px 30px rgba(15,23,42,.3)}
+  .doc-header-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1.5rem;margin-bottom:1.5rem}
+  .brand-name{font-size:1.75rem;font-weight:800;letter-spacing:-.02em}
+  .brand-sub{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.4rem;line-height:1.6;font-family:var(--mono)}
+  .doc-id{text-align:right}
+  .doc-type{font-family:var(--mono);font-size:.6rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.3rem}
+  .doc-number{font-size:1.5rem;font-weight:800;letter-spacing:-.01em}
+  .badge{display:inline-flex;align-items:center;gap:.5rem;margin-top:.75rem;padding:.4rem 1rem;border-radius:999px;font-size:.7rem;font-weight:700;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2)}
+  .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .doc-dates{display:flex;gap:2rem;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.15)}
+  .dd-label{font-family:var(--mono);font-size:.6rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.2rem}
+  .dd-value{font-size:.95rem;font-weight:700}
+  .parties{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+  .party{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--navy);border-radius:var(--radius);padding:1.5rem}
+  .party-title{font-family:var(--mono);font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin-bottom:.75rem}
+  .party-name{font-size:1.1rem;font-weight:800;margin-bottom:.5rem}
+  .party-detail{font-size:.85rem;color:var(--muted);line-height:1.7}
+  .section-label{font-family:var(--mono);font-size:.6rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+  table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  th{background:var(--ink);color:#fff;font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.75rem 1rem;text-align:left}
+  th:last-child,th:nth-child(2),th:nth-child(3){text-align:right}
+  td{font-size:.9rem;padding:.75rem 1rem;border-bottom:1px solid var(--line);vertical-align:top}
+  td:last-child{text-align:right;font-weight:800;color:var(--navy);white-space:nowrap;font-family:var(--mono)}
+  td:nth-child(2){text-align:center;font-family:var(--mono);font-weight:600}
+  td small{display:block;font-size:.75rem;font-weight:400;color:var(--muted);line-height:1.55;margin-top:.2rem}
+  tr.subtotal td{background:#f8fafc;color:var(--muted);font-size:.85rem}
+  tr.subtotal td:last-child{color:var(--muted);font-weight:700}
+  tr.total td{background:var(--ink);font-weight:800;font-size:1rem;border-bottom:none;color:#fff}
+  tr.total td:last-child{color:var(--navy-light);font-size:1.15rem}
+  .payment{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+  .pay-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem}
+  .pay-title{font-family:var(--mono);font-size:.6rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);margin-bottom:.75rem}
+  .pay-method{font-size:.85rem;color:var(--muted);display:flex;gap:.5rem;margin-bottom:.4rem}
+  .pay-method::before{content:"→";color:var(--navy);font-weight:700}
+  .pay-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--line);font-size:.85rem}
+  .pay-row:last-child{border-bottom:none;font-weight:800;padding-top:.75rem;font-size:.95rem}
+  .pay-row:last-child span:last-child{color:var(--navy);font-family:var(--mono)}
+  .pay-label{color:var(--muted)}
+  .note{background:rgba(26,106,255,.08);border-left:3px solid var(--navy);border-radius:0 var(--radius) var(--radius) 0;padding:1rem 1.25rem;font-size:.85rem;color:#1e3a5f;line-height:1.7;margin-bottom:1.25rem}
+  .note--slate{background:rgba(15,23,42,.08);border-left-color:var(--ink);color:var(--ink)}
+  footer{background:var(--ink);color:rgba(255,255,255,.5);text-align:center;padding:1.5rem 1rem;font-family:var(--mono);font-size:.7rem;margin-top:3rem;border-top:2px solid var(--navy)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--font);font-size:.85rem;font-weight:700;letter-spacing:.4px;text-decoration:none;border:1px solid transparent;border-radius:8px;padding:.75rem 1.5rem;cursor:pointer;transition:background .18s,color .18s,border-color .18s,transform .12s,box-shadow .18s}
+  .btn:active{transform:translateY(1px)}
+  .btn--navy{background:var(--navy);color:#fff;box-shadow:0 4px 20px var(--navy-glow)}
+  .btn--navy:hover{background:var(--navy-dark);box-shadow:0 8px 28px var(--navy-glow)}
+  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn--ghost:hover{border-color:var(--ink)}
+  .status-badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:8px}
+  .status-borrador{background:rgba(255,255,255,.15);color:#fff}
+  .status-enviada{background:rgba(59,130,246,.2);color:#93c5fd}
+  .status-pagada{background:rgba(16,185,129,.2);color:#6ee7b7}
+  @media print{.no-print{display:none}body{background:#fff}.doc-header,th{-webkit-print-color-adjust:exact;print-color-adjust:exact}.container{padding-block:1.25rem}}
+  @media(max-width:680px){.parties,.payment{grid-template-columns:1fr}.doc-id{text-align:left}.doc-header{padding:1.5rem}.brand-name{font-size:1.4rem}.doc-number{font-size:1.25rem}table{font-size:.8rem}th,td{padding:.5rem .75rem}}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="doc-header">
+    <div class="doc-header-top">
+      <div>
+        <div class="brand-name">Atlantek Systems</div>
+        <div class="brand-sub">Seguridad · CCTV · Redes<br>70201 Guápiles, Pococí, Costa Rica<br>soporte@atlanteksystems.com · +506 7231-2225</div>
+      </div>
+      <div class="doc-id">
+        <div class="doc-type">Proforma de Cobro</div>
+        <div class="doc-number">PRF-001</div>
+        <span class="badge">Pendiente de pago</span>
+      </div>
+    </div>
+    <div class="doc-dates">
+      <div><div class="dd-label">Fecha de emisión</div><div class="dd-value">25 de septiembre de 2026</div></div>
+      <div><div class="dd-label">Fecha de vencimiento</div><div class="dd-value">10 de octubre de 2026</div></div>
+      <div><div class="dd-label">Referencia de contrato</div><div class="dd-value">CTR-2026-001</div></div>
+    </div>
+  </div>
+
+  <div class="parties">
+    <div class="party">
+      <div class="party-title">Emitido por</div>
+      <div class="party-name">Garett Johan Barrantes Benavides</div>
+      <div class="party-detail">Cédula 7-0263-0247 · Persona física<br>Cartago, Costa Rica<br>garettjohan12@gmail.com<br>+506 6314-4171</div>
+    </div>
+    <div class="party">
+      <div class="party-title">Facturado a</div>
+      <div class="party-name">CLÍNICA DENTAL ECO CLINIC</div>
+      <div class="party-detail">70201 Guápiles, Pococí, Costa Rica<br>contacto@ecoclinic.cr<br>+506 8888-8888</div>
+    </div>
+  </div>
+
+  <div class="section-label">Detalle de servicios</div>
+  <table>
+    <thead>
+      <tr><th>Descripción</th><th style="text-align:center">Cant.</th><th>Precio unitario</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sitio web Atlantek — Landing + Panel Admin</strong>
+          <small>Landing page 6 servicios · Botón WhatsApp · Formulario contacto Google Sheets · HTML/CSS/JS · Deploy AWS S3 + CloudFront + SSL · Panel gestión clientes/facturación · Radar cobertura profesional</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>₡1,200,000</td>
+        <td>₡1,200,000</td>
+      </tr>
+      <tr>
+        <td><strong>Sistema CCTV 8 cámaras — Eco Clinic</strong>
+          <small>4 Domo Dahua 2MP + 4 Bullet Dahua 2MP + DVR 8ch + Disco 2TB + Cableado estructurado + Configuración remota</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>₡2,800,000</td>
+        <td>₡2,800,000</td>
+      </tr>
+      <tr>
+        <td><strong>Cableado estructurado Cat6 — Consultorios</strong>
+          <small>12 puntos de red + Rack 12U + Patch panel + Bandejas + Certificación Fluke</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>₡650,000</td>
+        <td>₡650,000</td>
+      </tr>
+      <tr>
+        <td><strong>Red WiFi 6 Empresarial — Área común</strong>
+          <small>3 Access Points Ruijie WiFi 6 + Controlador + Mesh + Portal cautivo</small>
+        </td>
+        <td style="text-align:center">1</td>
+        <td>₡480,000</td>
+        <td>₡480,000</td>
+      </tr>
+      <tr class="subtotal"><td colspan="3">Subtotal equipos y servicios</td><td>₡5,130,000</td></tr>
+      <tr class="total"><td colspan="3"><strong>TOTAL A PAGAR</strong></td><td>₡5,130,000</td></tr>
+    </tbody>
+  </table>
+
+  <div class="payment">
+    <div class="pay-card">
+      <div class="pay-title">Métodos de pago aceptados</div>
+      <div class="pay-method">SINPE Móvil al +506 6314-4171 (Garett Barrantes)</div>
+      <div class="pay-method">Transferencia bancaria BCR (coordinar por WhatsApp)</div>
+      <div class="pay-method">Efectivo (Guápiles / Cartago, coordinado previamente)</div>
+    </div>
+    <div class="pay-card">
+      <div class="pay-title">Estado del cobro</div>
+      <div class="pay-row"><span class="pay-label">Total del contrato</span><span>₡5,130,000</span></div>
+      <div class="pay-row"><span class="pay-label">Adelanto (50%)</span><span>₡2,565,000</span></div>
+      <div class="pay-row"><span class="pay-label">Saldo pendiente</span><span>₡2,565,000</span></div>
+      <div class="pay-row"><span class="pay-label">Vence el</span><span>10 oct 2026</span></div>
+    </div>
+  </div>
+
+  <div class="note note--slate">
+    <strong>Esta proforma NO incluye:</strong> mantenimiento mensual posterior a la entrega, revisiones adicionales a las 2 rondas pactadas, secciones o funcionalidades nuevas fuera de lo listado.
+  </div>
+
+  <div class="note">
+    <strong>Nota legal:</strong> esta proforma tiene validez de <strong>15 días naturales</strong> desde su emisión (vence el 10 de octubre de 2026). Pasado ese plazo sin pago, se reserva el derecho de suspender el acceso público al sitio hasta recibir el pago completo. Consultas: WhatsApp +506 6314-4171.
+  </div>
+
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap" class="no-print">
+    <button class="btn btn--navy" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5"/><path d="M18 18h2a2 2 0 0 0 2-2v-5"/><path d="M8 9h8"/></svg>
+      Imprimir / PDF
+    </button>
+    <a class="btn btn--ghost" href="https://wa.me/50672312225?text=Hola%20Atlantek%2C%20consulta%20sobre%20proforma%20PRF-001" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Consultar por WhatsApp
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  Documento de prueba · PRF-001 · Atlantek Systems · 70201 Guápiles, Pococí, Costa Rica
+</footer>
+
+</body>
+</html>
