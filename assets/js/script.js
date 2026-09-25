@@ -201,72 +201,102 @@
     });
   }
 
-  /* ══════ Radar de cobertura: barrido con detección de puntos ══════
-     El CSS mueve el barrido con una animación simple; JS toma el control
-     (rAF) para saber el ángulo real y encender cada distrito al pasarlo. */
-  const sweep = document.getElementById('radar-sweep');
-  if (sweep) {
-    const radar = sweep.parentElement;
-    const blips = Array.from(radar.querySelectorAll('.radar__blip'))
-      .filter((b) => !b.classList.contains('radar__blip--base'));
-    const rngEl = document.getElementById('radar-rng');
-    const lockEl = document.getElementById('radar-lock');
+  /* ══════ Radar Profesional: Panel de objetivos + lista cobertura ══════ */
+  const radarSweep = document.getElementById('radar-sweep');
+  if (radarSweep) {
+    const radar = radarSweep.closest('.radar');
+    const targets = Array.from(radar.querySelectorAll('.radar__target'));
+    const rangeEl = document.getElementById('radar-readout-range');
+    const targetsCountEl = document.getElementById('radar-readout-targets');
+    const targetsListEl = document.getElementById('radar-targets-list');
+    const coverageListEl = document.getElementById('coverage-list');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const lockTimeout = 1400;
-    const tolerance = 16;
-    const locked = new Set();
 
-    sweep.style.animation = 'none';
-    sweep.style.transformOrigin = '50% 50%';
+    // Datos de objetivos para el panel lateral
+    const targetData = targets.map(t => ({
+      el: t,
+      name: t.dataset.name,
+      district: t.dataset.district,
+      km: parseFloat(t.dataset.km),
+      time: parseInt(t.dataset.time),
+      sla: t.dataset.sla,
+      bearing: parseInt(t.dataset.bearing),
+      isBase: t.classList.contains('radar__target--base'),
+      isExtended: t.classList.contains('radar__target--extended')
+    }));
 
-    const angleOf = (b) => ((parseFloat(b.dataset.ang) || 0) * Math.PI) / 180;
-    const sweepAngle = (deg) => ((deg - 90) * Math.PI) / 180; /* N = -90° rad */
-    const sameDir = (a, b) => {
-      let d = Math.abs(a - b);
-      d = d % (Math.PI * 2);
-      if (d > Math.PI) d = Math.PI * 2 - d;
-      return d <= (tolerance * Math.PI) / 180;
-    };
+    // Renderizar panel de objetivos
+    if (targetsListEl) {
+      targetsListEl.innerHTML = targetData.map(td => `
+        <button class="radar__panel-target ${td.isBase ? 'radar__panel-target--base' : ''} ${td.isExtended ? 'radar__panel-target--extended' : ''}" 
+                data-target="${td.name}" 
+                aria-label="Ver ${td.name}: ${td.km} km, ${td.sla}">
+          <span class="radar__panel-target-indicator" aria-hidden="true"></span>
+          <div class="radar__panel-target-info">
+            <div class="radar__panel-target-name">${td.name}</div>
+            <div class="radar__panel-target-meta">
+              <span>${td.km.toFixed(1)} km</span>
+              <span>·</span>
+              <span>${td.time} min</span>
+              <span class="radar__panel-target-sla radar__panel-target-sla--${td.sla === 'Mismo día' ? 'fast' : td.sla === '24–48 h' ? 'normal' : td.sla === 'Programada' ? 'scheduled' : 'consult'}">${td.sla}</span>
+            </div>
+          </div>
+        </button>
+      `).join('');
 
-    const lockBlip = (b) => {
-      if (locked.has(b)) return;
-      locked.add(b);
-      b.classList.add('is-locked');
-      lockEl.textContent = `${locked.size}/${blips.length}`;
-      setTimeout(() => {
-        locked.delete(b);
-        b.classList.remove('is-locked');
-        lockEl.textContent = `${locked.size}/${blips.length}`;
-      }, lockTimeout);
-    };
-
-    const lockAll = () => {
-      blips.forEach((b) => { locked.add(b); b.classList.add('is-locked'); });
-      lockEl.textContent = `${blips.length}/${blips.length}`;
-    };
-
-    if (reduceMotion) {
-      lockAll();
-      rngEl.textContent = '—';
-      return;
+      // Click en target del panel -> focus en radar
+      targetsListEl.querySelectorAll('.radar__panel-target').forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          const td = targetData[idx];
+          td.el.focus({ preventScroll: true });
+          td.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        });
+      });
     }
 
-    let deg = 0;
-    let last = performance.now();
+    // Renderizar lista de cobertura
+    if (coverageListEl) {
+      coverageListEl.innerHTML = targetData
+        .filter(td => !td.isBase) // No mostrar la base en la lista
+        .map(td => `
+          <li>
+            <b>${td.district}</b>
+            <span class="tag tag--${td.sla === 'Mismo día' ? 'fast' : td.sla === '24–48 h' ? 'normal' : td.sla === 'Programada' ? 'scheduled' : 'consult'}">${td.sla}</span>
+          </li>
+        `).join('');
+    }
 
-    const tick = (now) => {
-      const dt = Math.min(now - last, 100);
-      last = now;
-      deg = (deg + (360 / 5500) * dt) % 360;
-      sweep.style.transform = `rotate(${deg}deg)`;
-      rngEl.textContent = `${Math.round(deg)}°`;
+    // Actualizar readouts
+    if (rangeEl) rangeEl.textContent = '20 km';
+    if (targetsCountEl) targetsCountEl.textContent = `${targetData.filter(t => !t.isBase).length} activos`;
 
-      const sa = sweepAngle(deg);
-      blips.forEach((b) => { if (sameDir(angleOf(b), sa)) lockBlip(b); });
+    // Hover/focus en target del radar -> highlight en panel
+    targetData.forEach((td, idx) => {
+      const highlight = () => {
+        const panelBtn = targetsListEl?.querySelector(`[data-target="${td.name}"]`);
+        if (panelBtn) {
+          panelBtn.style.background = td.isBase ? 'rgba(51, 209, 122, 0.2)' : 'var(--bg)';
+          panelBtn.style.borderColor = td.isBase ? 'rgba(51, 209, 122, 0.5)' : 'var(--line-2)';
+        }
+      };
+      const unhighlight = () => {
+        const panelBtn = targetsListEl?.querySelector(`[data-target="${td.name}"]`);
+        if (panelBtn) {
+          panelBtn.style.background = '';
+          panelBtn.style.borderColor = '';
+        }
+      };
+      td.el.addEventListener('mouseenter', highlight);
+      td.el.addEventListener('mouseleave', unhighlight);
+      td.el.addEventListener('focus', highlight);
+      td.el.addEventListener('blur', unhighlight);
+    });
 
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+    // Reducir movimiento: solo mostrar todo estático
+    if (reduceMotion) {
+      radarSweep.style.animation = 'none';
+      radarSweep.style.opacity = '0.3';
+    }
   }
 
   /* ── Chat de preguntas frecuentes ──
@@ -275,7 +305,7 @@
   const FAQ = [
     {
       q: '¿Cuánto cuesta instalar cámaras?',
-      a: 'Depende de la cantidad de cámaras y el tipo de propiedad. Una casa típica con 4 cámaras cuesta entre <b>$350-$600 USD</b> todo incluido (equipos, cableado e instalación). Coordinamos una <b>valoración técnica en sitio</b> para preparar su cotización.'
+      a: 'Depende de la cantidad de cámaras y el tipo de propiedad. Una casa típica con 4 cámaras cuesta entre <b>$350-$600 USD</b> todo incluido (equipos, cableado e instalación). Coordinamos una <b>valoración técnica en sitio sin compromiso</b> para preparar su cotización exacta.'
     },
     {
       q: '¿Qué garantía tienen los equipos?',
