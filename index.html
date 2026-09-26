@@ -562,7 +562,8 @@
               <input id="nombre" type="text" name="nombre" required autocomplete="name" placeholder="Su nombre">
             </label>
             <label for="telefono">Teléfono / WhatsApp
-              <input id="telefono" type="tel" name="telefono" required autocomplete="tel" placeholder="8888-8888">
+              <input id="telefono" type="tel" name="telefono" required autocomplete="tel" placeholder="8888-8888" pattern="[2-8][0-9]{3}-?[0-9]{4}" title="Formato: 8888-8888 (8 dígitos, inicia con 2-8)">
+              <span class="field-hint">8 dígitos, ej: 8888-8888</span>
             </label>
           </div>
 

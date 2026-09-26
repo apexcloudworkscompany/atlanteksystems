@@ -3,8 +3,42 @@
    ═══════════════════════════════════════════════════════════════ */
 
 (() => {
-  /* ── Menú móvil ── */
-  const nav = document.getElementById('nav');
+  /* ═══════════════════════════════════════════════════════════════
+     Seguridad: Rate limit + Sanitización
+     ═══════════════════════════════════════════════════════════════ */
+
+  const RATE_LIMIT_KEY = 'atlantek-rl';
+  const RATE_LIMIT_MAX = 3;
+  const RATE_WINDOW = 3600000;
+
+  function checkRateLimit() {
+    const now = Date.now();
+    const data = JSON.parse(localStorage.getItem(RATE_LIMIT_KEY) || '[]');
+    const recent = data.filter((t) => now - t < RATE_WINDOW);
+    if (recent.length >= RATE_LIMIT_MAX) return false;
+    recent.push(now);
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(recent));
+    return true;
+  }
+
+  function sanitize(str) {
+    return String(str).replace(/[<>\"'&]/g, (c) => ({
+      '<': '<',
+      '>': '>',
+      '"': '"',
+      "'": ''',
+      '&': '&',
+    }[c]));
+  }
+
+  function validatePhoneCR(phone) {
+    const cleaned = phone.replace(/\D/g, '');
+    return cleaned.length === 8 && /^[2-8]/.test(cleaned);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     Menú móvil
+     ═══════════════════════════════════════════════════════════════ */
   const burger = document.getElementById('nav-burger');
   const links = document.getElementById('nav-links');
 
@@ -156,20 +190,30 @@
       e.preventDefault();
       if (form.website.value) return; // honeypot anti-bots
 
+      if (!checkRateLimit()) {
+        show('Demasiadas solicitudes. Espere una hora o use WhatsApp directo.', 'error');
+        return;
+      }
+
       const f = new FormData(form);
       const lead = {
-        nombre: String(f.get('nombre') || '').trim(),
-        telefono: String(f.get('telefono') || '').trim(),
-        distrito: String(f.get('distrito') || ''),
-        tipo: String(f.get('tipo') || ''),
-        visualizacion: String(f.get('visualizacion') || ''),
-        ubicacion: String(f.get('ubicacion') || ''),
-        servicio: String(f.get('servicio') || ''),
-        mensaje: String(f.get('mensaje') || '').trim()
+        nombre: sanitize(f.get('nombre') || '').trim(),
+        telefono: sanitize(f.get('telefono') || '').trim(),
+        distrito: sanitize(f.get('distrito') || ''),
+        tipo: sanitize(f.get('tipo') || ''),
+        visualizacion: sanitize(f.get('visualizacion') || ''),
+        ubicacion: sanitize(f.get('ubicacion') || ''),
+        servicio: sanitize(f.get('servicio') || ''),
+        mensaje: sanitize(f.get('mensaje') || '').trim(),
       };
 
       if (!lead.nombre || !lead.telefono) {
         show('Complete al menos su nombre y teléfono.', 'error');
+        return;
+      }
+
+      if (!validatePhoneCR(lead.telefono)) {
+        show('Teléfono inválido. Use formato 8888-8888 (8 dígitos, inicia con 2-8).', 'error');
         return;
       }
 
