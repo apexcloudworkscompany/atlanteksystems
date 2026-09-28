@@ -22,16 +22,17 @@
   }
 
   function sanitize(str) {
-    return String(str).replace(/[<>\"'&]/g, (c) => ({
-      '<': '<',
-      '>': '>',
-      '"': '"',
-      "'": ''',
-      '&': '&',
+    return String(str).replace(/[<>"'&]/g, (c) => ({
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;',
+      '&': '&amp;',
     }[c]));
   }
 
   function validatePhoneCR(phone) {
+
     const cleaned = phone.replace(/\D/g, '');
     return cleaned.length === 8 && /^[2-8]/.test(cleaned);
   }
