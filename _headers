@@ -1,5 +1,4 @@
-# Security Headers para GitHub Pages
-# https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-custom-headers-for-github-pages-site
+# Security Headers para Cloudflare Pages
 
 /*
   X-Frame-Options: DENY
@@ -18,5 +17,5 @@
   Cache-Control: public, max-age=31536000, immutable
 
 # HTML no cachear (cambia frecuente)
-*.html
+/*.html
   Cache-Control: public, max-age=0, must-revalidate
