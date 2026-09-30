@@ -42,11 +42,25 @@
      ═══════════════════════════════════════════════════════════════ */
   const burger = document.getElementById('nav-burger');
   const links = document.getElementById('nav-links');
+  const nav = document.getElementById('nav');
 
-  burger.addEventListener('click', () => nav.classList.toggle('nav--open'));
+  const setMenuOpen = (open) => {
+    nav.classList.toggle('nav--open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  };
+
+  burger.addEventListener('click', () => setMenuOpen(!nav.classList.contains('nav--open')));
 
   links.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') nav.classList.remove('nav--open');
+    if (e.target.closest('a')) setMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('nav--open')) {
+      setMenuOpen(false);
+      burger.focus();
+    }
   });
 
   /* ── Logo vuelve al principio ── */
