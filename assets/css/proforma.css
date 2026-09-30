@@ -349,6 +349,15 @@ body {
   .sheet__intro, .sheet__items, .sheet__notes { padding-left: 18px; padding-right: 18px; }
   .sheet__totaldue { font-size: 24px; }
   .vbtn { padding: 9px 12px; font-size: 12px; }
+
+  /* La tabla de 4 columnas no entra en un teléfono. En vez de estirar la
+     página (rompía el scroll en 375px) la tabla se desplaza sola. */
+  .sheet__items {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sheet__table { min-width: 380px; }
+  .sheet__total-row { min-width: 380px; }
 }
 
 /* ═══════════ IMPRESIÓN — solo la hoja ═══════════ */

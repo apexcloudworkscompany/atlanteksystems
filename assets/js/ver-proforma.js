@@ -47,9 +47,9 @@
   /* ── Pedir el documento a la API ── */
   async function pedir(numero, clave) {
     // `const` a nivel superior NO cuelga de window: hay que leer el identificador.
-    if (typeof CONFIG === 'undefined' || !CONFIG.SHEETS_URL) throw new Error('sin CONFIG');
+    if (typeof CONFIG === 'undefined' || !CONFIG.PROFORMA_URL) throw new Error('sin CONFIG');
 
-    const res = await fetch(CONFIG.SHEETS_URL, {
+    const res = await fetch(CONFIG.PROFORMA_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
@@ -59,10 +59,21 @@
         clave: String(clave || '')
       })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    if (!res.ok) {
+      const e = new Error('HTTP ' + res.status);
+      e.redCaida = true; // la API no respondió bien -> sí vale el respaldo
+      throw e;
+    }
 
     const json = await res.json();
-    if (!json.ok) throw new Error(json.error || 'respuesta no válida');
+    if (!json.ok) {
+      // La API respondió y dijo que NO. Esto NO es un fallo de conexión:
+      // la clave está mala o el documento no existe. Tiene que verse el
+      // error, nunca datos de demostración.
+      const e = new Error(json.error || 'respuesta no válida');
+      e.redCaida = false;
+      throw e;
+    }
     return json.data;
   }
 
@@ -229,21 +240,35 @@
       fallo = e;
     }
 
-    // Respaldo: si la API aún no está desplegada, usamos el demo
-    if (!data) {
+    if (data) {
+      pintar(data);
+      return;
+    }
+
+    const caida = fallo && fallo.redCaida !== false;
+
+    // El respaldo demo existe SOLO para cuando la API no está desplegada o
+    // no se puede alcanzar. Si la API contestó y rechazó el enlace (clave
+    // mala, documento inexistente) se le muestra el error al cliente: si no,
+    // alguien con un link viejo vería una proforma de mentira.
+    if (caida) {
       const demo = pedirDemo(numero);
       if (demo) {
         pintar(demo);
         return;
       }
       noEncontrado(
-        'Documento no encontrado',
-        'Verifique que el enlace esté completo. Si el problema sigue, escríbanos y se lo reenviamos.'
+        'No pudimos cargar el documento',
+        'El servicio no responde en este momento. Intentá de nuevo en un rato o escribinos por WhatsApp.'
       );
-      if (fallo) console.warn('[proforma] API:', fallo.message);
+      console.warn('[proforma] API caída:', fallo.message);
       return;
     }
 
-    pintar(data);
+    noEncontrado(
+      'Enlace no válido',
+      'Este enlace no corresponde a un documento válido. Escribinos y te lo reenviamos.'
+    );
+    if (fallo) console.warn('[proforma] API rechazó:', fallo.message);
   })();
 })();
