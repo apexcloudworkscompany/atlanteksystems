@@ -227,6 +227,12 @@
         return;
       }
 
+      if (!form.elements.consent.checked) {
+        show('Autorice el uso de sus datos para enviar la solicitud.', 'error');
+        form.elements.consent.focus();
+        return;
+      }
+
       if (!validatePhoneCR(lead.telefono)) {
         show('Teléfono inválido. Use formato 8888-8888 (8 dígitos, inicia con 2-8).', 'error');
         return;

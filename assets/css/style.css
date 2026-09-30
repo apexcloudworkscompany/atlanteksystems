@@ -2161,3 +2161,7 @@ button:focus-visible {
   .chat-panel { bottom: calc(76px + env(safe-area-inset-bottom)); max-height: calc(100dvh - 100px - env(safe-area-inset-bottom)); }
   .footer { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
 }
+.lead-form__consent { display: flex; align-items: flex-start; gap: .65rem; margin: 1rem 0; color: var(--text-muted, #5e6c7c); font-size: .82rem; line-height: 1.5; }
+.lead-form__consent input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: .12rem; accent-color: #2478ff; }
+.lead-form__consent a, .footer__legal a { color: inherit; text-underline-offset: .18em; }
+.footer__legal { margin: .4rem 0; font-size: .82rem; }
