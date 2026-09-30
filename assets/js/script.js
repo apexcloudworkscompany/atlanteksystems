@@ -184,7 +184,7 @@
   const form = document.getElementById('lead-form');
   if (form) {
     const status = document.getElementById('lead-status');
-    const WA_NUM = '50672312225';
+    const WA_NUM = '50663144171';
 
     const show = (html, tipo) => {
       status.innerHTML = html;
@@ -237,18 +237,15 @@
       btn.textContent = 'Enviando…';
 
       let ok = false;
-      if (typeof CONFIG !== 'undefined' && CONFIG.SHEETS_URL) {
-        try {
-          /* text/plain evita el preflight CORS que Apps Script no responde */
-          const res = await fetch(CONFIG.SHEETS_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ token: CONFIG.TOKEN, action: 'lead', lead })
-          });
-          ok = (await res.json()).ok === true;
-        } catch (err) {
-          ok = false;
-        }
+      try {
+        const res = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lead, website: f.get('website') || '' })
+        });
+        ok = res.ok && (await res.json()).ok === true;
+      } catch (err) {
+        ok = false;
       }
 
       btn.disabled = false;

@@ -16,7 +16,7 @@
   'use strict';
 
   const $ = (id) => document.getElementById(id);
-  const WA = '50672312225';
+  const WA = '50663144171';
 
   const esc = (s) => String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -218,7 +218,7 @@
         `Total: ${fmt(total)}`,
         '',
         'Cualquier consulta, con gusto.',
-        'Atlantek · Seguridad · CCTV · Redes · 7231-2225'
+        'Atlantek · Seguridad · CCTV · Redes · 6314-4171'
       ].join('\n');
       window.open(waHref(msg), '_blank');
     });
