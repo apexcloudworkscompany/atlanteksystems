@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   Atlantek · proforma.css — visor público de documentos
-   La hoja (.sheet*) es una copia exacta de los estilos del panel
-   admin (02-Privado/panel-admin/assets/css/admin.css) para que el
-   documento se vea idéntico en el admin y en el link del cliente.
-   NO editar solo aquí: replicar también en admin.css.
-   ═══════════════════════════════════════════════════════════════ */
+/* Atlantek · visor público. La hoja usa documento.css, idéntico en ambos repos. */
 
 :root {
   --font: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -13,7 +7,7 @@
   --paper-blue: #1a6aff;
   --paper-slate: #162b44;
   --paper-line: #E3E3E0;
-  --stage: #6b7683;
+  --stage: #e7edf4;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -60,7 +54,7 @@ body {
 .vbar__brand img {
   height: 26px;
   width: auto;
-  background: #fff;
+  background: transparent;
   border-radius: 3px;
   padding: 2px 6px;
 }
@@ -99,7 +93,7 @@ body {
 /* ═══════════ ESTADOS ═══════════ */
 
 .vstate {
-  max-width: 460px;
+  width: min(460px, calc(100% - 32px));
   margin: 90px auto;
   background: #fff;
   padding: 44px 40px;
@@ -125,7 +119,7 @@ body {
 .vloading {
   text-align: center;
   padding: 90px 20px;
-  color: #fff;
+  color: #344c66;
   font-family: var(--mono);
   font-size: 12px;
   letter-spacing: 2px;
@@ -134,230 +128,19 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LA HOJA — copia exacta de admin.css (L828-L1017)
+   LA HOJA — módulo compartido documento.css
    ═══════════════════════════════════════════════════════════════ */
-
-/* La hoja — proporción carta · SIEMPRE clara */
-.sheet {
-  --paper-navy:  #0a2540;
-  --paper-blue:  #1a6aff;
-  --paper-slate: #162b44;
-  --paper-line:  #E3E3E0;
-  --paper-card:  #f4f8fc;
-
-  font-family: var(--font);
-  background: #fff;
-  width: 816px;              /* 8.5in @ 96dpi */
-  min-height: 1056px;        /* 11in  @ 96dpi */
-  margin: 28px auto 0;
-  box-shadow: 0 12px 48px rgba(0,0,0,.45);
-  color: #1B1B1B;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Banda corporativa superior */
-.sheet__band {
-  background: linear-gradient(135deg, var(--paper-navy), #143860);
-  padding: 30px 46px 26px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid var(--paper-blue);
-}
-
-.sheet__logo {
-  background: #ffffff;
-  padding: 16px 26px;
-  border-radius: 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  line-height: 1;
-  color: var(--paper-navy);
-  box-shadow: 0 4px 16px rgba(0,0,0,.15);
-}
-
-.sheet__logo .sheet__logo-img {
-  width: auto;
-  height: 80px;
-  max-width: 240px;
-  object-fit: contain;
-  border-radius: 0;
-  margin: 0;
-}
-
-.sheet__logo .logo__word {
-  font-size: 36px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  font-family: var(--font);
-  color: var(--paper-navy);
-}
-
-.sheet__doctitle { text-align: right; color: #fff; }
-
-.sheet__doctitle h2 {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 10px;
-  white-space: pre-line;
-  letter-spacing: -0.02em;
-}
-
-.sheet__doctitle .mail { font-size: 12px; color: rgba(255,255,255,.85); }
-
-/* Barra slate de metadatos */
-.sheet__meta {
-  background: var(--paper-slate);
-  color: #fff;
-  display: flex;
-  padding: 13px 46px;
-  gap: 0;
-  font-size: 11px;
-}
-
-.sheet__meta-item {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  flex: 1;
-}
-
-.sheet__meta-item b {
-  font-weight: 700;
-  letter-spacing: .6px;
-  text-transform: uppercase;
-}
-
-.status-badge {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 999px;
-  margin-left: 8px;
-}
-.status-borrador { background: rgba(255,255,255,.15); color: #fff; }
-.status-enviada { background: rgba(59,130,246,.2); color: #93c5fd; }
-.status-pagada { background: rgba(16,185,129,.2); color: #6ee7b7; }
-
-/* FROM / TO / TOTAL */
-.sheet__parties {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 24px;
-  padding: 26px 46px 22px;
-}
-
-.sheet__party { font-size: 12.5px; line-height: 1.55; }
-
-.sheet__party b {
-  display: block;
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  margin-bottom: 4px;
-}
-
-.sheet__party--total { border-left: 1px solid var(--paper-line); padding-left: 24px; }
-
-.sheet__totaldue {
-  font-size: 30px;
-  font-weight: 700;
-  color: var(--paper-navy);
-  letter-spacing: -0.5px;
-  margin-top: 2px;
-}
-
-.sheet__intro {
-  padding: 6px 46px 14px;
-  font-size: 12px;
-  font-style: italic;
-  border-top: 1px solid var(--paper-line);
-  border-bottom: 1px solid var(--paper-line);
-}
-
-/* Tabla de líneas */
-.sheet__items { padding: 0 46px; flex: 1; }
-
-.sheet__table { width: 100%; border-collapse: collapse; }
-
-.sheet__table th {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .4px;
-  text-transform: uppercase;
-  text-align: left;
-  padding: 18px 8px 10px 0;
-  border-bottom: 1px solid #9AA0A6;
-  color: #1B1B1B;
-  font-family: inherit;
-}
-
-.sheet__table th.num, .sheet__table td.num { text-align: right; padding-right: 0; }
-
-.sheet__table td {
-  font-size: 11.5px;
-  padding: 12px 8px 12px 0;
-  border-bottom: 1px solid var(--paper-line);
-  vertical-align: top;
-  font-family: inherit;
-}
-
-.sheet__table td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
-
-.sheet__total-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 18px 0 16px;
-  border-bottom: 1px solid var(--paper-line);
-}
-
-.sheet__total-row .label { font-size: 15px; font-weight: 700; }
-.sheet__total-row .value { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-.sheet__notes {
-  padding: 14px 46px 40px;
-  font-size: 10.5px;
-  font-style: italic;
-  line-height: 1.6;
-  color: #333;
-}
 
 /* ═══════════ RESPONSIVE ═══════════ */
 
 @media (max-width: 880px) {
   .vbar { flex-wrap: wrap; padding: 10px 14px; }
   .vbar__doc { order: 3; width: 100%; }
-  .sheet { width: 100%; min-height: 0; }
-  .sheet__parties { grid-template-columns: 1fr; }
-  .sheet__party--total { border-left: none; padding-left: 0; }
 }
 
 @media (max-width: 560px) {
-  .sheet__band { padding: 20px 18px 18px; flex-direction: column; align-items: flex-start; gap: 16px; }
-  .sheet__doctitle { text-align: left; }
-  .sheet__logo { padding: 12px 18px; }
-  .sheet__logo .sheet__logo-img { height: 44px; }
-  .sheet__logo .logo__word { font-size: 24px; }
-  .sheet__meta, .sheet__parties { padding: 13px 18px; flex-direction: column; gap: 8px; }
-  .sheet__intro, .sheet__items, .sheet__notes { padding-left: 18px; padding-right: 18px; }
-  .sheet__totaldue { font-size: 24px; }
   .vbtn { padding: 9px 12px; font-size: 12px; }
 
-  /* La tabla de 4 columnas no entra en un teléfono. En vez de estirar la
-     página (rompía el scroll en 375px) la tabla se desplaza sola. */
-  .sheet__items {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .sheet__table { min-width: 380px; }
-  .sheet__total-row { min-width: 380px; }
 }
 
 /* ═══════════ IMPRESIÓN — solo la hoja ═══════════ */
@@ -366,16 +149,11 @@ body {
   html { color-scheme: light; }
   body { background: #fff; padding-bottom: 0; }
   .vbar, .no-print { display: none !important; }
-  .sheet {
-    width: 100%;
-    min-height: 0;
-    margin: 0;
-    box-shadow: none;
-  }
-  .sheet__band, .sheet__meta, .sheet__logo {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
 }
 
-@page { size: letter; margin: 0; }
+
+
+.vbar__brand img { height: 40px; }
+.vbtn { min-height: 44px; }
+.vbtn:focus-visible { outline: 3px solid #8fbcff; outline-offset: 3px; }
+@media screen and (max-width: 560px) { .vbar { gap: 10px; } .vbar__brand img { height: 32px; } .vbar__doc { font-size: 10px; } }

@@ -107,71 +107,81 @@
 
   /* ── Render de la hoja ── */
   function pintar({ empresa: E, cliente: c, doc: d, demo }) {
+    const documentDate = (iso) => {
+      const match = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+      return match ? `${match[3]}/${match[2]}/${match[1]}` : '—';
+    };
     const total = (d.items || []).reduce(
       (s, it) => s + (Number(it.qty) || 0) * (Number(it.precio) || 0), 0
     );
 
     const esFactura = d.tipo === 'factura';
-    const titulo = esFactura ? 'Factura' : 'Pro forma\ninvoice';
-    const labelNo = esFactura ? 'INVOICE NO.' : 'PRO FORMA INVOICE NO.';
+    const titulo = esFactura ? 'Factura' : 'Proforma';
+
+    const cotNumero = d.cotizacion && !/(NaN|undefined|null)/i.test(d.cotizacion)
+      ? d.cotizacion
+      : `${esFactura ? 'FAC' : 'PRF'}-${numDoc(d.numero)}`;
+    const estado = ['borrador', 'enviada', 'pagada'].includes(d.estado) ? d.estado : 'borrador';
 
     const rows = (d.items || []).map(it => `
       <tr>
         <td>${esc(it.desc)}</td>
-        <td class="num">${esc(it.qty)}</td>
-        <td class="num">${fmtPlain(it.precio)}</td>
-        <td class="num">${fmtPlain((Number(it.qty) || 0) * (Number(it.precio) || 0))}</td>
+        <td class="num" data-label="Cantidad">${esc(it.qty)}</td>
+        <td class="num" data-label="Precio (CRC)">${fmtPlain(it.precio)}</td>
+        <td class="num" data-label="Importe (CRC)">${fmtPlain((Number(it.qty) || 0) * (Number(it.precio) || 0))}</td>
       </tr>`).join('');
 
     $('v-root').innerHTML = `
       <article class="sheet">
+        ${demo ? '<div class="sheet__demo">DEMOSTRACIÓN · Este documento no es una cotización válida.</div>' : ''}
         <div class="sheet__band">
           <div class="sheet__logo">
-            <img src="assets/img/logo-atlantek-dark.svg" alt="ATLANTEK Systems" class="sheet__logo-img">
-            <span class="logo__word">ATLANTEK</span>
+            <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK Systems" class="sheet__logo-img">
           </div>
           <div class="sheet__doctitle">
+            <span class="sheet__eyebrow">${esFactura ? 'Documento comercial' : 'Propuesta comercial'}</span>
             <h2>${esc(titulo)}</h2>
             <span class="mail">${esc(E.email)}</span>
           </div>
         </div>
 
-        <div class="sheet__meta">
-          <div class="sheet__meta-item"><b>${labelNo}</b> ${numDoc(d.numero)}</div>
-          <div class="sheet__meta-item"><b>Issue date</b> ${fmtDate(d.fechaEmision)}</div>
-          <div class="sheet__meta-item"><b>Delivery date</b> ${fmtDate(d.fechaEntrega)}</div>
-        </div>
+      <div class="sheet__meta">
+        <div class="sheet__meta-item"><b>Documento</b> ${esc(cotNumero)}</div>
+        <div class="sheet__meta-item"><b>Emisión</b> ${documentDate(d.fechaEmision)}</div>
+        <div class="sheet__meta-item"><b>Entrega</b> ${documentDate(d.fechaEntrega)}</div>
+        <div class="sheet__meta-item"><b>Estado</b> <span class="status-badge status-${estado}">${estado}</span></div>
+      </div>
 
-        <div class="sheet__parties">
+      <div class="sheet__parties">
           <div class="sheet__party">
-            <b>FROM</b>
+            <b>Emitido por</b>
             ${esc(E.nombre)}<br>
-            ${esc(E.linea2)}<br>
+            ${E.linea2 && E.linea2 !== 'N/A' ? esc(E.linea2) + '<br>' : ''}
             ${esc(E.direccion)}<br>
             ${esc(E.pais)}
           </div>
           <div class="sheet__party">
-            <b>TO</b>
+            <b>Preparado para</b>
             ${esc(c.nombre)}<br>
             ${c.direccion ? esc(c.direccion) + '<br>' : ''}
             ${esc(c.pais)}
           </div>
           <div class="sheet__party sheet__party--total">
-            <b>Total due</b>
+            <b>Total del documento · CRC</b>
             <div class="sheet__totaldue">${fmt(total)}</div>
           </div>
         </div>
 
-        <div class="sheet__intro">Te facturamos:</div>
+        <div class="sheet__intro">${esFactura ? 'Detalle de facturación' : 'Equipos y servicios cotizados'}</div>
 
         <div class="sheet__items">
-          <table class="sheet__table">
+          <table class="sheet__table" aria-label="Detalle de equipos y servicios">
             <thead>
               <tr>
-                <th style="width:52%">Description</th>
-                <th style="width:12%" class="num">Quantity</th>
-                <th style="width:18%" class="num">Unit price (₡)</th>
-                <th style="width:18%" class="num">Amount (₡)</th>
+                <th scope="col">Descripción</th>
+                <th scope="col" class="num">Cant.</th>
+                <th scope="col" class="num">Precio unit. (CRC)</th>
+                <th scope="col" class="num">Importe (CRC)</th>
               </tr>
             </thead>
             <tbody>${rows}</tbody>
@@ -182,7 +192,8 @@
           </div>
         </div>
 
-        <div class="sheet__notes">${esc(d.notas)}</div>
+        ${d.notas ? `<section class="sheet__notes"><h3>Notas y condiciones</h3><p>${esc(d.notas)}</p></section>` : ''}
+      <footer class="sheet__footer"><span>Atlantek Systems · Seguridad · CCTV · Redes</span><span>Desarrollado por Apex Cloud Work — Cartago, CR</span></footer>
       </article>`;
 
     $('v-loading').remove();
