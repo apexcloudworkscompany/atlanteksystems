@@ -925,11 +925,11 @@ h1 em { font-style: normal; color: var(--navy-light); }
 
 .footer__admin {
   font-family: var(--mono);
-  font-size: 10px !important;
+  font-size: 14px !important;
   letter-spacing: .4px;
   color: var(--faint) !important;
   margin-top: 16px;
-  opacity: 0.6;
+  opacity: 1;
   transition: opacity .2s;
 }
 
@@ -940,6 +940,37 @@ h1 em { font-style: normal; color: var(--navy-light); }
 }
 
 .footer__admin a:hover { color: var(--navy-light); }
+
+.account-menu { position: relative; }
+.account-menu summary { cursor: pointer; padding: 12px 0; color: var(--ink); font-size: 14px; }
+.account-menu__links { position: absolute; right: 0; top: 100%; min-width: 190px; padding: 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 30px #0006; }
+.account-menu__links a { display: block; padding: 12px; }
+.registration { padding-top: 70px; padding-bottom: 70px; scroll-margin-top: 130px; }
+.registration > p { max-width: 620px; margin: 16px 0 28px; color: var(--muted); }
+.registration .lead-form { max-width: 620px; }
+.registration input { min-width: 0; }
+@media (max-width: 680px) {
+  .account-menu { width: 100%; }
+  .account-menu summary { padding: 13px 0; font-size: 15px; }
+  .account-menu__links { position: static; min-width: 0; box-shadow: none; }
+}
+
+/* Acceso invisible bajo los enlaces legales; visible al navegar con teclado. */
+.footer__admin-access {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 144px;
+  min-height: 44px;
+  opacity: 0;
+}
+
+.footer__admin-access:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--navy-light);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
 
 .footer__credit {
   font-family: var(--mono);
@@ -2165,3 +2196,11 @@ button:focus-visible {
 .lead-form__consent input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: .12rem; accent-color: #2478ff; }
 .lead-form__consent a, .footer__legal a { color: inherit; text-underline-offset: .18em; }
 .footer__legal { margin: .4rem 0; font-size: .82rem; }
+
+/* Marca principal con más presencia en el encabezado. */
+.nav__inner { height: 110px; }
+.nav__inner > .logo .logo__img { height: 104px; max-height: 104px; }
+@media (max-width: 680px) {
+  .nav__inner { height: 96px; }
+  .nav__inner > .logo .logo__img { height: 86px; max-height: 86px; }
+}

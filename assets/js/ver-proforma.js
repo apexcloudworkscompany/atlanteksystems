@@ -16,7 +16,7 @@
   'use strict';
 
   const $ = (id) => document.getElementById(id);
-  const WA = '50663144171';
+  const WA = '50672312225';
 
   const esc = (s) => String(s ?? '')
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -53,7 +53,6 @@
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
-        token: CONFIG.TOKEN,
         action: 'doc-publico',
         numero: Number(numero),
         clave: String(clave || '')
@@ -136,7 +135,7 @@
         ${demo ? '<div class="sheet__demo">DEMOSTRACIÓN · Este documento no es una cotización válida.</div>' : ''}
         <div class="sheet__band">
           <div class="sheet__logo">
-            <img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK Systems" class="sheet__logo-img">
+            <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/logo-atlantek-white.svg" alt="ATLANTEK Systems" class="sheet__logo-img"></a>
           </div>
           <div class="sheet__doctitle">
             <span class="sheet__eyebrow">${esFactura ? 'Documento comercial' : 'Propuesta comercial'}</span>
@@ -193,6 +192,17 @@
         </div>
 
         ${d.notas ? `<section class="sheet__notes"><h3>Notas y condiciones</h3><p>${esc(d.notas)}</p></section>` : ''}
+      <section class="sheet__brands" aria-label="Marcas de equipos">
+        <div class="sheet__brands-logos">
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-hikvision.svg" alt="Hikvision" loading="lazy"></a>
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-dahua.svg" alt="Dahua" loading="lazy"></a>
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-tplink.svg" alt="TP-Link" loading="lazy"></a>
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-ezviz.svg" alt="EZVIZ" loading="lazy"></a>
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-ruijie.svg" alt="Ruijie" loading="lazy"></a>
+          <a href="https://atlanteksystems.com/" aria-label="Atlantek · Página principal"><img src="assets/img/brand-imou.svg" alt="IMOU" loading="lazy"></a>
+        </div>
+        <p class="sheet__brands-names">Marcas disponibles: Hikvision · Dahua · TP-Link · EZVIZ · Ruijie · IMOU</p>
+      </section>
       <footer class="sheet__footer"><span>Atlantek Systems · Seguridad · CCTV · Redes</span><span>Desarrollado por Apex Cloud Work — Cartago, CR</span></footer>
       </article>`;
 
@@ -204,10 +214,7 @@
     const etiqueta = esFactura ? 'Factura' : 'Proforma';
 
     $('v-print').addEventListener('click', () => {
-      const prev = document.title;
-      document.title = `Atlantek-${etiqueta}-${numDoc(d.numero)}${slug(c.nombre) ? '-' + slug(c.nombre) : ''}`;
-      window.print();
-      setTimeout(() => { document.title = prev; }, 500);
+      printDocument(`Atlantek-${etiqueta}-${numDoc(d.numero)}${slug(c.nombre) ? '-' + slug(c.nombre) : ''}`, $('v-print'));
     });
 
     $('v-wa').addEventListener('click', () => {
@@ -218,7 +225,7 @@
         `Total: ${fmt(total)}`,
         '',
         'Cualquier consulta, con gusto.',
-        'Atlantek · Seguridad · CCTV · Redes · 6314-4171'
+        'Atlantek · Seguridad · CCTV · Redes · 7231-2225'
       ].join('\n');
       window.open(waHref(msg), '_blank');
     });
@@ -253,6 +260,7 @@
 
     if (data) {
       pintar(data);
+      if (window.Aceptacion) window.Aceptacion.mount(data);
       return;
     }
 

@@ -1,0 +1,4 @@
+.acceptance{max-width:850px;box-sizing:border-box;margin:24px auto;padding:24px;border:1px solid #bdcce0;border-radius:12px;background:#fff;color:#142a43;line-height:1.65}
+.acceptance h2{margin-top:0}.acceptance label{display:grid;gap:8px;margin:18px 0}.acceptance input:not([type=checkbox]){box-sizing:border-box;width:100%;padding:12px;font:inherit;border:1px solid #899caf;border-radius:6px}.acceptance .acceptance-check{display:flex;align-items:start;gap:12px}.acceptance input[type=checkbox]{min-width:20px;min-height:20px}.acceptance [role=status]{color:#9f241d}.acceptance button{cursor:pointer}.acceptance button:disabled{opacity:.6}
+@media(max-width:600px){.acceptance{margin:16px 12px;padding:18px}.acceptance .vbtn{white-space:normal;height:auto}}
+@media print{.acceptance{display:none!important}}

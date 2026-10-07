@@ -63,14 +63,7 @@
     }
   });
 
-  /* ── Logo vuelve al principio ── */
-  const brandLogo = document.getElementById('brand-logo');
-  if (brandLogo) {
-    brandLogo.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  /* Los logos son enlaces nativos a la página principal. */
 
   /* ── Nav con profundidad + barra de progreso al hacer scroll ── */
   const progressBar = document.querySelector('.nav__progress');
@@ -184,7 +177,7 @@
   const form = document.getElementById('lead-form');
   if (form) {
     const status = document.getElementById('lead-status');
-    const WA_NUM = '50663144171';
+    const WA_NUM = '50672312225';
 
     const show = (html, tipo) => {
       status.innerHTML = html;

@@ -8,5 +8,6 @@ const CONFIG = {
   // Visor de proformas. Endpoint del proyecto que está ligado a la hoja
   // VIVA (la que lee el panel admin). El de arriba está atado a una copia
   // vieja: su proforma 027 vale ₡50.000 cuando la real vale ₡196.950.
-  PROFORMA_URL: 'https://script.google.com/macros/s/AKfycbyfQ1Nd6oHLQVguqS3QRH-QSlhHDkkOS0B9Zakda55zlIUOxWHRm2lv7ygP7lohoY5F-A/exec'
+  // Proxy same-origin: TOKEN_PUBLICO permanece en las variables secretas de Vercel.
+  PROFORMA_URL: '/api/proforma'
 };

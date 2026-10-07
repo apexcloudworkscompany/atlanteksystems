@@ -1,98 +1,27 @@
 # Atlantek Systems — Sitio público
 
-Landing de captación para **Atlantek Systems** (cámaras de seguridad, cableado estructurado y redes en Guápiles, Pococí, Costa Rica).
+Producción: https://atlanteksystems.com · Hosting: Vercel.
 
-**Producción:** https://atlanteksystems.com
+## Estado al 7 de octubre de 2026
 
-> Sitio público. El panel de gestión es privado y vive en otro repo: [`atlanteksystems-admin`](https://github.com/apexcloudworkscompany/atlanteksystems-admin).
+Web operativa, registro publicado y visor de proformas con aceptación e impresión. CSP configurada en `vercel.json` y comprobada en producción. El visor rechaza claves inválidas.
 
----
+## Arquitectura
 
-## Stack
+HTML, CSS y JavaScript separados, sin framework. `index.html` contiene la landing; `assets/js/registration.js` gestiona el registro mediante el panel; `ver-proforma.html` y sus scripts presentan los documentos.
 
-HTML · CSS · JS estático puro. **Sin build, sin framework, sin dependencias.** Se sube y funciona.
+`api/proforma.js` ejecuta el proxy de documentos en Vercel. Requiere `SHEETS_LEADS_URL` y `TOKEN_PUBLICO` en el entorno del servidor. Valida acciones, origen y parámetros; solo reintenta lecturas. La aceptación nunca se reenvía automáticamente.
 
-- Hosting: **Vercel** (proyecto `web`) — es el único host que sirve producción
-- DNS: `atlanteksystems.com` → Vercel (A records)
-- Fuente: Plus Jakarta Sans + JetBrains Mono (Google Fonts)
+`assets/js/config.js` es público: nunca colocar credenciales administrativas allí. Las variables privadas y `.vercel/` quedan fuera de Git. `.vercelignore` excluye archivos de entorno y este README del despliegue.
 
-## Estructura
+## Validación y despliegue
 
-```
-.
-├── index.html              # Landing completa (6 secciones)
-├── 404.html                # Página de error 404
-├── ver-proforma.html       # Visor público de proformas (link por documento)
-├── vercel.json             # Rewrites + Cache-Control
-├── CNAME                   # Dominio custom (GitHub Pages, ahora redirector)
-├── robots.txt / sitemap.xml
-├── .nojekyll               # GitHub Pages: no pasar por Jekyll
-└── assets/
-    ├── css/
-    │   ├── style.css       # Sistema de diseño "Control Room" (navy)
-    │   ├── proforma.css    # Visor de proformas
-    │   └── 404.css
-    ├── js/
-    │   ├── config.js       # ⚠️ Endpoint Apps Script + TOKEN PÚBLICO
-    │   ├── script.js       # Leads, chat bot, radar, FABs, rate limit
-    │   ├── proforma-publica.js
-    │   ├── ver-proforma.js
-    │   └── 404.js
-    └── img/                # Logos, hero, marcas, iconos SVG
-```
+No requiere compilación del frontend. Revisar sintaxis JavaScript, `git diff --check`, registro y visor antes de publicar. Las pruebas del proxy están en el directorio privado de pruebas del proyecto.
 
-Código siempre en archivos separados. Nada inline.
+El repositorio está conectado a Vercel: **push a main publica automáticamente**. Crear un commit local no publica. El panel se mantiene en su propio repositorio privado.
 
-## Secciones de `index.html`
+## Límites pendientes
 
-| id | Contenido |
-|---|---|
-| `inicio` | Hero con fondo CCTV real + HUD animado |
-| `servicios` | 6 cards: CCTV, cableado, WiFi, equipos, asesoría, soporte |
-| `cobertura` | Radar SVG animado — 7 distritos de Pococí + Guácimo |
-| `proceso` | 4 pasos de trabajo |
-| `guapiles` | Bloque SEO de Guápiles |
-| `contacto` | Formulario de 8 campos → Google Sheets |
+Google Apps Script presenta latencia variable. Los importes existentes siguen en CRC hasta resolver la decisión comercial; no convertirlos automáticamente. El correo comercial quedó configurado en Apps Script v21 según el cierre del 6 de octubre; la entrega real al buzón no se ha probado.
 
-## ⚠️ `assets/js/config.js` — leer antes de tocar
-
-Es **público**. Va al navegador de cualquiera. Contiene:
-
-- `SHEETS_URL` — endpoint de Apps Script para leads
-- `TOKEN` — `atlantek-pub-*`, alcance limitado a `action=lead` y `action=user`
-- `PROFORMA_URL` — endpoint del visor de proformas
-
-**Nunca** debe aparecer aquí el `TOKEN_ADMIN` (`atlantek-adm-*`). Ese da lectura y escritura completa de la hoja: clientes, proformas, facturación. Vive solo en el repo privado del panel.
-
-Hay dos endpoints distintos de Apps Script a propósito: el de leads está atado a una copia vieja de la hoja, el de proformas a la hoja viva. No unificarlos sin revisar los montos de la proforma 027.
-
-## Deploy
-
-Vercel tiene el repo conectado en la rama `main`. Push a `main` = deploy.
-
-```bash
-git add -A
-git commit -m "..."
-git push origin main
-```
-
-Si se necesita redeploy manual:
-
-```bash
-npm i -g vercel
-vercel --prod
-```
-
-## GitHub Pages
-
-`has_pages` está activo con `CNAME: atlanteksystems.com`. Sirve de **redirector**: `apexcloudworkscompany.github.io/atlanteksystems/` → `atlanteksystems.com`. No es el host de producción.
-
-## Pendientes conocidos
-
-- [ ] **Los security headers no se aplican.** `_headers` era para Cloudflare, pero el host es Vercel y Vercel solo lee `vercel.json`. En producción hoy no hay CSP, ni `X-Frame-Options`, ni `X-Content-Type-Options`, ni `Permissions-Policy`. Solo HSTS, que Vercel pone por default. Hay que traducir el bloque CSP a `vercel.json > headers`.
-- [ ] `assets/img/products/` se borró: eran 12 archivos `.jpg` que en realidad eran SVG de 383 bytes, y no los referenciaba nadie. El catálogo real usa imágenes en base64 que llegan desde Sheets.
-- [ ] Considerar `max-age` real para `assets/` — hoy es `must-revalidate`, se revalida en cada visita.
-
-## Licencia
-
-Proyecto privado — Apex Cloud Work / Atlantek Systems.
+No actualizar implementaciones de Apps Script mediante CLI: el antecedente de 403 requiere publicar desde la cuenta propietaria en Google.

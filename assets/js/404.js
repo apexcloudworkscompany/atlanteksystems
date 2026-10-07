@@ -8,7 +8,7 @@
 (() => {
   'use strict';
 
-  const WA = '50663144171';
+  const WA = '50672312225';
   const MAX_PATH = 42;
 
   /* ── Mostrar la ruta que falló (texto plano, recortado) ── */
